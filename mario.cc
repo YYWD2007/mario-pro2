@@ -67,6 +67,9 @@ void Mario::jump() {
     }
 }
 
+/**
+ * @brief 更新mario人物，例如：跳，左右移动，等等，这个函数是更新数值，然后再apply。最后在game.cc里面调用paint
+ */
 void Mario::update(pro2::Window& window, const vector<Platform>& platforms) {
     last_pos_ = pos_;
     if (window.is_key_down(Keys::Space)) {

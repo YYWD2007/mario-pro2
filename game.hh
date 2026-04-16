@@ -8,6 +8,7 @@
 
 class Game {
     Mario                 mario_;
+    Mario                 mario2_;  // 新增加一个人物，mario2_
     std::vector<Platform> platforms_;
 
     bool finished_, paused_;    // 新增paused_，识别游戏是否暂停
