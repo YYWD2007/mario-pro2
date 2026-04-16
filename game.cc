@@ -40,28 +40,46 @@ void Game::update_objects(pro2::Window& window) {
     mario2_.update(window, platforms_);     // 更新mario2_的移动，动作
 }
 
+// void Game::update_camera(pro2::Window& window) {
+//     const Pt pos = mario_.pos();
+//     const Pt cam = window.camera_center();
+
+//     // 这段代码在屏幕正中央画了一个看不见的矩形框。
+//     // 它的宽度是屏幕宽度的一半（左右各 1/4），高度是屏幕高度的一半（上下各 1/4）。
+//     const int left = cam.x - window.width() / 4;
+//     const int right = cam.x + window.width() / 4;
+//     const int top = cam.y - window.height() / 4;
+//     const int bottom = cam.y + window.height() / 4;
+
+//     int dx = 0, dy = 0; // dx和dy代表摄像机需要移动的距离，初始为0（不移动）
+//     // 检查是否出了矩形框，出了就更新dx, dy, 最终移动相机位置
+//     if (pos.x > right) {
+//         dx = pos.x - right;
+//     } else if (pos.x < left) {
+//         dx = pos.x - left;
+//     }
+//     if (pos.y < top) {
+//         dy = pos.y - top;
+//     } else if (pos.y > bottom) {
+//         dy = pos.y - bottom;
+//     }
+
+//     window.move_camera({dx, dy});
+// }
+
+/**
+ * @brief 新增：永远保持Mario在中心位置，和上面注释的镜头移动函数的逻辑不同。
+ */
 void Game::update_camera(pro2::Window& window) {
     const Pt pos = mario_.pos();
     const Pt cam = window.camera_center();
 
-    // 这段代码在屏幕正中央画了一个看不见的矩形框。
-    // 它的宽度是屏幕宽度的一半（左右各 1/4），高度是屏幕高度的一半（上下各 1/4）。
-    const int left = cam.x - window.width() / 4;
-    const int right = cam.x + window.width() / 4;
-    const int top = cam.y - window.height() / 4;
-    const int bottom = cam.y + window.height() / 4;
-
     int dx = 0, dy = 0; // dx和dy代表摄像机需要移动的距离，初始为0（不移动）
-    // 检查是否出了矩形框，出了就更新dx, dy, 最终移动相机位置
-    if (pos.x > right) {
-        dx = pos.x - right;
-    } else if (pos.x < left) {
-        dx = pos.x - left;
+    if (pos.x != cam.x) {
+        dx = pos.x - cam.x;
     }
-    if (pos.y < top) {
-        dy = pos.y - top;
-    } else if (pos.y > bottom) {
-        dy = pos.y - bottom;
+    if (pos.y != cam.y) {
+        dy = pos.y - cam.y;
     }
 
     window.move_camera({dx, dy});

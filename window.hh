@@ -446,12 +446,12 @@ class Window {
     /**
      * @brief Retorna la posició del centre de la càmera.
      *
-     * @returns Un `Pt` amb les coordenades del centre de la càmera.
+     * @returns Un `Pt` amb les coordenades del centre de la càmera. （返回相机中心的x, y）
      */
     Pt camera_center() const {
         const int width = fenster_.width / zoom_;
         const int height = fenster_.height / zoom_;
-        return {topleft_.x + width / 2, topleft_.y + height / 2};
+        return {topleft_.x + width / 2, topleft_.y + height / 2};   // topleft_.y代表左上角的y数值（在游戏里y轴越大越是向下走）
     }
 
     Rect camera_rect() const {
