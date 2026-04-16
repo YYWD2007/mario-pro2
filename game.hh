@@ -10,7 +10,7 @@ class Game {
     Mario                 mario_;
     std::vector<Platform> platforms_;
 
-    bool finished_;
+    bool finished_, paused_;    // 新增paused_，识别游戏是否暂停
 
     void process_keys(pro2::Window& window);
     void update_objects(pro2::Window& window);
@@ -24,6 +24,10 @@ class Game {
 
     bool is_finished() const {
         return finished_;
+    }
+
+    bool is_paused() const {
+        return paused_;
     }
 
  private:

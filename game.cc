@@ -9,16 +9,27 @@ Game::Game(int width, int height)
           Platform(0, 200, 250, 261),
           Platform(250, 400, 150, 161),
       },
-      finished_(false) {
+      finished_(false), paused_(false) {    // 加了paused_成员bool变量，记得这里要初始构造！(到这里是初始化列表) 
     assert(width > 0 && height > 0, "L'amplada i l'alcada del joc han de ser positives.");
     for (int i = 1; i < 20; i++) {
         platforms_.push_back(Platform(250 + i * 200, 400 + i * 200, 150, 161));
     }
 }
 
+/**
+ * @post is_key_down是windows里的函数，识别按下的键。这个函数：如果按下特定键，暂停或结束
+ */
 void Game::process_keys(pro2::Window& window) {
     if (window.is_key_down(Keys::Escape)) {
         finished_ = true;
+        return;
+    }
+    if(window.was_key_pressed('P')) {
+        if(paused_ == true) {
+            paused_ = false;
+        } else {
+            paused_ = true;
+        }
         return;
     }
 }
@@ -53,8 +64,10 @@ void Game::update_camera(pro2::Window& window) {
 
 void Game::update(pro2::Window& window) {
     process_keys(window);
-    update_objects(window);
-    update_camera(window);
+    if(!is_paused()) {
+        update_objects(window);
+        update_camera(window);
+    }
 }
 
 void Game::paint(pro2::Window& window) {
