@@ -72,15 +72,15 @@ void Mario::jump() {
  */
 void Mario::update(pro2::Window& window, const vector<Platform>& platforms) {
     last_pos_ = pos_;
-    if (window.is_key_down(Keys::Space)) {
+    if (window.is_key_down(jump_key_)) {    // 把原来硬编码的Keys::Space改成成员变量
         jump();
     }
 
     // Velocitat horitzontal
     speed_.x = 0; 
-    if (window.is_key_down(Keys::Left)) {
+    if (window.is_key_down(left_key_)) {   // 把原来硬编码的Keys::Left改成成员变量
         speed_.x = -4;
-    } else if (window.is_key_down(Keys::Right)) {
+    } else if (window.is_key_down(right_key_)) {   // 把原来硬编码的Keys::Right改成成员变量
         speed_.x = 4;
     }
     if (speed_.x != 0) {

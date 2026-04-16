@@ -3,8 +3,8 @@
 using namespace pro2;
 
 Game::Game(int width, int height)
-    : mario_({width / 2, 150}),
-      mario2_({(width / 2) - 30, 150}),    // mario2_初始构造位置
+    : mario_({width / 2, 150}, Keys::Space, Keys::Left, Keys::Right),
+      mario2_({(width / 2) - 30, 150}, 'W', 'A', 'D'),    // mario2_初始构造位置和移动键
       platforms_{
           Platform(100, 300, 200, 211),
           Platform(0, 200, 250, 261),
@@ -40,9 +40,6 @@ void Game::update_objects(pro2::Window& window) {
     mario2_.update(window, platforms_);     // 更新mario2_的移动，动作
 }
 
-/**
- * @brief 
- */
 void Game::update_camera(pro2::Window& window) {
     const Pt pos = mario_.pos();
     const Pt cam = window.camera_center();

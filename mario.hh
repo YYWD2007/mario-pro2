@@ -16,10 +16,14 @@ class Mario {
     bool grounded_ = false;
 	bool looking_left_ = false;
 
+    int jump_key_, left_key_, right_key_;   // 增加移动键变量，可以是WAD或者LeftRightSpace
+
 	void apply_physics_();
 	
  public:
-    Mario(pro2::Pt pos) : pos_(pos), last_pos_(pos) {}
+    Mario(pro2::Pt pos, int jump_key, int left_key, int right_key) 
+    // 新增初始化构造移动键
+    : pos_(pos), last_pos_(pos), jump_key_(jump_key), left_key_(left_key), right_key_(right_key){}
 
     void paint(pro2::Window& window) const;
 
