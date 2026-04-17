@@ -2,6 +2,9 @@
 #include "assert.hh"
 using namespace pro2;
 
+// nou: per imprimir línies
+#include "utils.hh"
+
 Game::Game(int width, int height)
     : mario_({width / 2, 150}, Keys::Space, Keys::Left, Keys::Right),
       mario2_({(width / 2) - 30, 150}, 'W', 'A', 'D'),    // mario2_初始构造位置和移动键
@@ -10,7 +13,7 @@ Game::Game(int width, int height)
           Platform(0, 200, 250, 261),
           Platform(250, 400, 150, 161),
       },
-      finished_(false), paused_(false) {    // 加了paused_成员bool变量，记得这里要初始构造！(到这里是初始化列表) 
+      finished_(false), paused_(false), render(false), sparkle(0) {    // 加变量后，记得这里要初始构造！(到这里是初始化列表) 
     assert(width > 0 && height > 0, "L'amplada i l'alcada del joc han de ser positives.");
     for (int i = 1; i < 20; i++) {
         platforms_.push_back(Platform(250 + i * 200, 400 + i * 200, 150, 161));
@@ -94,10 +97,30 @@ void Game::update(pro2::Window& window) {
 }
 
 void Game::paint(pro2::Window& window) {
+    // 后打印的会覆盖前面打印的，位置不是无所谓
     window.clear(sky_blue);
+    Rect r = window.camera_rect();  // 此函数作用见docs/window.md
+
+    Rect r1 = {r.left+10, r.top+10, r.right-10, r.bottom-10};
+    if(sparkle==10) {
+        render = !render;
+        sparkle = 0;
+    }
+    if(render) paint_rect(window, r1, yellow);  // 新: 渲染长方形
+    // sparkle ++;  // 开启后会闪烁
+
     for (const Platform& p : platforms_) {
         p.paint(window);
     }
+
     mario_.paint(window);
     mario2_.paint(window);  // 打印第二个(mario2_)
+    
+    // nou: imprimir requadre al marc de la pantalla, -1?
+    paint_hline(window, r.left, r.right-1, r.top);
+    paint_hline(window, r.left, r.right-1, r.bottom-1);
+    paint_vline(window, r.left, r.top, r.bottom-1);
+    paint_vline(window, r.right-1, r.top, r.bottom-1);
+
+    // paint_rect(window, r1, yellow);  // 如果放在最后就会覆盖!
 }

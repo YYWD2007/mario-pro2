@@ -13,6 +13,9 @@ class Game {
 
     bool finished_, paused_;    // 新增paused_，识别游戏是否暂停
 
+    int sparkle;  // 新: 控制闪烁间隔
+    bool render;  // 新: 控制打印渲染
+
     void process_keys(pro2::Window& window);
     void update_objects(pro2::Window& window);
     void update_camera(pro2::Window& window);

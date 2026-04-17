@@ -1,4 +1,4 @@
-# Mario PRO 2 🍄
+# Mario PRO2 🍄
 ![mario pro2 2026 primavera](images/image.png)
 
 # Requirements

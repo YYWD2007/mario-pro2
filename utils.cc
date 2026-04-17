@@ -34,4 +34,12 @@ void paint_sprite(pro2::Window&              window,
     }
 }
 
+void paint_rect(pro2::Window& window, const pro2::Rect& r, Color color) {
+    for(int i=r.left; i<r.right; i++) {
+        for(int j=r.top; j<r.bottom; j++) {
+            window.set_pixel({i, j}, color);
+        }
+    }
+}
+
 }  // namespace pro2
