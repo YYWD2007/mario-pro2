@@ -34,7 +34,8 @@ const vector<vector<int>> Mario::mario_sprite_normal_ = {
 // clang-format on
 
 void Mario::paint(pro2::Window& window) const {
-    const Pt top_left = {pos_.x - 6, pos_.y - 15};
+    // pos_是Mario中下点（这个坐标是在game.cc里构造Mario的时候传入的），这里需要传入Mario左上角坐标开始渲染（print_sprite的orig参数）
+    const Pt top_left = {pos_.x - 6, pos_.y - 15};  
     paint_sprite(window, top_left, mario_sprite_normal_, looking_left_);
 }
 
@@ -71,6 +72,7 @@ void Mario::jump() {
  * @brief 更新mario人物，例如：跳，左右移动，等等，这个函数是更新数值，然后再apply。最后在game.cc里面调用paint
  */
 void Mario::update(pro2::Window& window, const vector<Platform>& platforms) {
+    // 先预留位置，再更新，这样就有了更新后的位置和之前的位置，用于
     last_pos_ = pos_;
     if (window.is_key_down(jump_key_)) {    // 把原来硬编码的Keys::Space改成成员变量
         jump();
@@ -93,7 +95,9 @@ void Mario::update(pro2::Window& window, const vector<Platform>& platforms) {
     // Check position
     set_grounded(false);
 
+    // 遍历游戏里所有平台
     for (const Platform& platform : platforms) {
+        // 如果穿越了平台，Mario y 轴就 = platform.top(), grounded_ = true
         if (platform.has_crossed_floor_downwards(last_pos_, pos_)) {
             set_grounded(true);
             set_y(platform.top());

@@ -2,21 +2,31 @@
 #include "assert.hh"
 using namespace pro2;
 
-// nou: per imprimir línies
+// 新: 调用utils里面的函数打印
 #include "utils.hh"
 
+// main.cc里面进行game对象构造
 Game::Game(int width, int height)
     : mario_({width / 2, 150}, Keys::Space, Keys::Left, Keys::Right),
       mario2_({(width / 2) - 30, 150}, 'W', 'A', 'D'),    // mario2_初始构造位置和移动键
+      // 初始构造3个平台
       platforms_{
           Platform(100, 300, 200, 211),
           Platform(0, 200, 250, 261),
           Platform(250, 400, 150, 161),
       },
+      // 新：构造金币
+      coins_{
+        Coin({110, 150}),
+        Coin({120, 195}),
+        Coin({130, 195}),
+      },
       finished_(false), paused_(false), render(false), sparkle(0) {    // 加变量后，记得这里要初始构造！(到这里是初始化列表) 
     assert(width > 0 && height > 0, "L'amplada i l'alcada del joc han de ser positives.");
+    // 这里又添加了19个平台！！！
     for (int i = 1; i < 20; i++) {
         platforms_.push_back(Platform(250 + i * 200, 400 + i * 200, 150, 161));
+        coins_.push_back(Coin({130 + i * 100, 150}));
     }
 }
 
@@ -111,6 +121,14 @@ void Game::paint(pro2::Window& window) {
 
     for (const Platform& p : platforms_) {
         p.paint(window);
+    }
+
+    // 新：如果mario_还没和金币重合就打印金币
+    for(Coin& c : coins_) {
+        if(!c.collected(mario_.pos())) {
+            c.paint(window);
+            c.increase_turn_();
+        }
     }
 
     mario_.paint(window);
